@@ -11,8 +11,9 @@ pipeline {
 
         stage('run') {
             steps {
-                sh 'cd nodejs/'
-                sh 'node src/main.js'
+                dir('nodejs') {
+                    sh 'node src/main.js'
+                }
             }
         }
     }
