@@ -1,11 +1,28 @@
-/* Requires the Docker Pipeline plugin */
+/* Pipeline para corroborar la versión de node y ejecutar el llamado a una API */
 pipeline {
-    agent { docker { image 'node:24.14.1-alpine3.23' } }
+    agent any
     stages {
-        stage('build') {
+        stage('environment') {
             steps {
                 sh 'node --version'
+                sh 'npm --version'
+            }
+        }
+
+        stage('run') {
+            steps {
+                sh 'node src/main.js'
             }
         }
     }
+
+    post {
+        success {
+            echo '¡Pipeline ejecutada con éxito!'
+        }
+        failure {
+            echo '¡Error al ejecutar Pipeline!'
+        }
+    }
+
 }
